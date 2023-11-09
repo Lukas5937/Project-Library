@@ -1,0 +1,9 @@
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+}
+
+.new-book-button {
+    margin-top: 32px;
+}
