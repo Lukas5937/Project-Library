@@ -4,6 +4,18 @@
     gap: 32px;
 }
 
-.new-book-button {
+.book-card {
+    padding: 16px; 
+    border: 1px solid grey; 
+    border-radius: 20px;
+}
+
+.remove-button {
+    padding: 16px;
+    border: 1px solid grey; 
+    border-radius: 20px;
+}
+
+#open-dialog-button {
     margin-top: 32px;
 }

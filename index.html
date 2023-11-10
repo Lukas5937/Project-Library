@@ -8,36 +8,30 @@
     <script src="./js-file.js" defer></script>
 </head>
 <body>
-    <div class="book-grid">
-    </div>
-    <button class="new-book-button">Add a new book</button>
-    <dialog>
-        <form action="www.example.com" method="dialog">
-            <div class="input-wrapper">
+    <div class="book-grid"></div>
+    <button id="open-dialog-button">Add a new book</button> 
+    <div class="dialog-wrapper">
+        <dialog>
+            <form action="www.example.com" method="dialog">
                 <div class="input-wrapper">
-                    <label for="title-input">Title</label>
-                    <input type="text" id="title-input" name="title">
+                    <div class="input-wrapper">
+                        <label for="title-input" >Title</label>
+                        <input type="text" id="title-input" name="title" autofocus>
+                    </div>
+                    <label for="author-input">Author</label>
+                    <input type="text" id="author-input" name="author">
                 </div>
-                <label for="author-input">Author</label>
-                <input type="text" id="author-input" name="author">
-            </div>
-            <div class="input-wrapper">
-                <label for="pages-input">Pages</label>
-                <input type="text" id="pages-input" name="pages">
-            </div>
-            <div class="input-wrapper">
-                <div>
-                    <label for="read">read</label>
-                    <input type="radio" id="read" name="read-status" value="read">
+                <div class="input-wrapper">
+                    <label for="pages-input">Pages</label>
+                    <input type="number" id="pages-input" name="pages">
                 </div>
-                <div>
-                    <label for="unread">unread</label>
-                    <input type="radio" id="unread" name="read-status" value="unread">
+                <div class="input-wrapper">
+                    <label for="read-input">Read</label>
+                    <input type="text" id="read-input" name="read">
                 </div>
-            </div>
-            <button type="submit">Add book</button>
-        </form>
-    </dialog>
-    
+                <button id="add-book-button" type="submit">Add book</button>
+            </form>
+        </dialog>
+    </div>   
 </body>
 </html>
