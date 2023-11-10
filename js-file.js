@@ -4,8 +4,8 @@ const addBookButton = document.querySelector("#add-book-button");
 const titleInput = document.querySelector("#title-input");
 const authorInput = document.querySelector("#author-input");
 const pagesInput = document.querySelector("#pages-input");
-const readInput = document.querySelector("#read-input");
-const read = document.querySelector('#read');
+const readInput = document.querySelector("#read");
+const unreadInput = document.querySelector("#unread");
 const unread = document.querySelector('#unread');
 const dialogWrapper = document.querySelector(".dialog-wrapper");
 
@@ -15,14 +15,15 @@ function Book(title, author, pages, read) {
     this.title = title,
     this.author = author,
     this.pages = pages,
-    this.read = read,
+    this.read = read;
     this.info = function() {
-        if (read === read) {
+        if (read) {
             return `${title} by ${author}, ${pages} pages, read.`
         }
+        else {
             return `${title} by ${author}, ${pages} pages, not read yet.`
     }
-};
+};}
 
 function addBookToLibrary(book) {
     return myLibrary.push(book);
@@ -43,10 +44,13 @@ function createBookCard(book) {
     const pagesText = document.createElement("p");
     const readText = document.createElement("p");
     const removeButton = document.createElement("button");
+    const readStatusButton = document.createElement("button");
     const bookGrid = document.querySelector(".book-grid");
-    bookCard.classList.add("book-card");
     removeButton.textContent = "Remove";
-    removeButton.classList.toggle("remove-button");
+    bookCard.classList.add("book-card");
+    readStatusButton.textContent = "Change read status";
+    removeButton.classList.toggle("book-card-button");
+    readStatusButton.classList.toggle("book-card-button");
     titleText.textContent = book.title;
     authorText.textContent = book.author;
     pagesText.textContent = book.pages;
@@ -57,6 +61,7 @@ function createBookCard(book) {
     bookCard.appendChild(pagesText);
     bookCard.appendChild(readText);
     bookCard.appendChild(removeButton);
+    bookCard.appendChild(readStatusButton);
     bookGrid.appendChild(bookCard);
 
     removeButton.addEventListener("click", () => {
@@ -67,6 +72,11 @@ function createBookCard(book) {
           }
         myLibrary.forEach(createBookCard);
     });
+
+    readStatusButton.addEventListener("click", () => {
+        book.read === "read" ? book.read = "unread" : book.read = "read";
+        readText.textContent = book.read;
+    })
 };
 
 myLibrary.forEach(createBookCard);
@@ -80,7 +90,8 @@ addBookButton.addEventListener("click", (event) => {
     const title = titleInput.value;
     const author = authorInput.value;
     const pages = pagesInput.value;
-    const read = readInput.value;
+    let read = "read";
+    if (unreadInput.checked) {read = "unread"};
     const newBook = new Book(title, author, pages, read);
     addBookToLibrary(newBook);
     createBookCard(newBook);

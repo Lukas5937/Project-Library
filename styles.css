@@ -10,10 +10,11 @@
     border-radius: 20px;
 }
 
-.remove-button {
+.book-card-button {
     padding: 16px;
     border: 1px solid grey; 
     border-radius: 20px;
+    margin-top: 8px;
 }
 
 #open-dialog-button {

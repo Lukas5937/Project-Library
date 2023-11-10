@@ -26,8 +26,14 @@
                     <input type="number" id="pages-input" name="pages">
                 </div>
                 <div class="input-wrapper">
-                    <label for="read-input">Read</label>
-                    <input type="text" id="read-input" name="read">
+                    <div class="radio-wrapper">
+                        <label for="read">read</label>
+                        <input type="radio" id="read" name="read-status" value="read" checked>
+                    </div>
+                    <div class="radio-wrapper">
+                        <label for="unread">unread</label>
+                        <input type="radio" id="unread" name="read-status" value="unread">
+                    </div>
                 </div>
                 <button id="add-book-button" type="submit">Add book</button>
             </form>
