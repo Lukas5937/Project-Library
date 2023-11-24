@@ -9,48 +9,96 @@ const unreadInput = document.querySelector("#unread");
 const unread = document.querySelector('#unread');
 const dialogWrapper = document.querySelector(".dialog-wrapper");
 
-function Library() {
-    this.books = [];
-};
+class Library {
+    library = [];
 
-Library.prototype.addBookToLibrary = function(book) {
-    return this.books.push(book);
-};
-
-function Book(title, author, pages, read) {
-    this.title = title,
-    this.author = author,
-    this.pages = pages,
-    this.read = read;
-    };
-
-Book.prototype.info = function() {
-    if (read) {
-        return `${title} by ${author}, ${pages} pages, read.`
+    addBook(book) {
+        this.library.push(book)
     }
-    else {
-        return `${title} by ${author}, ${pages} pages, not read yet.`
-}
+
+    createBookCard(book) {
+        const bookCard = document.createElement("div");
+        const titleText = document.createElement("p");
+        const authorText = document.createElement("p");
+        const pagesText = document.createElement("p");
+        const readText = document.createElement("p");
+        const removeButton = document.createElement("button");
+        const readStatusButton = document.createElement("button");
+        const bookGrid = document.querySelector(".book-grid");
+        removeButton.textContent = "Remove";
+        bookCard.classList.add("book-card");
+        readStatusButton.textContent = "Change read status";
+        removeButton.classList.toggle("book-card-button");
+        readStatusButton.classList.toggle("book-card-button");
+        titleText.textContent = book.title;
+        authorText.textContent = book.author;
+        pagesText.textContent = book.pages;
+        readText.textContent = book.read;
+        bookCard.setAttribute("data", this.library.indexOf(book));
+        bookCard.appendChild(titleText);
+        bookCard.appendChild(authorText);
+        bookCard.appendChild(pagesText);
+        bookCard.appendChild(readText);
+        bookCard.appendChild(removeButton);
+        bookCard.appendChild(readStatusButton);
+        bookGrid.appendChild(bookCard);
+    
+        removeButton.addEventListener("click", () => {
+            this.library.splice(bookCard.attributes.data.value, 1);
+            bookCard.setAttribute("data", this.library.indexOf(book));
+            while (bookGrid.firstChild) {
+                bookGrid.removeChild(bookGrid.lastChild);
+              }
+            this.returnBookCards();
+        });
+    
+        readStatusButton.addEventListener("click", () => {
+            book.read === "read" ? book.read = "unread" : book.read = "read";
+            readText.textContent = book.read;
+        })
+    }
+
+    createInitialBookCards() {
+        this.library.forEach(book => this.createBookCard(book))
+    }
+
+    returnBookCards() {
+        this.library.forEach(book => this.createBookCard(book));
+    }
 };
 
-/* Book.prototype.addBookToLibrary =  function(book) {
-    return myLibrary.push(book);
-}; */
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title,
+        this.author = author,
+        this.pages = pages,
+        this.read = read;
+        }
+    
+    info() {
+        if (read) {
+            return `${title} by ${author}, ${pages} pages, read.`
+        }
+        else {
+            return `${title} by ${author}, ${pages} pages, not read yet.`
+        }
+    }
+}
 
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 321, "read");
 const theBible = new Book("The Bible", "Jesus", 5000, "unread");
 const thingsFallApart = new Book("Things fall apart", "Chinua Achebe", 319, "read");
 
-myLibrary = new Library();
+const myLibraryObject = new Library();
+const myLibrary = myLibraryObject.library;
 
-myLibrary.addBookToLibrary(theHobbit);
-myLibrary.addBookToLibrary(theBible);
-myLibrary.addBookToLibrary(thingsFallApart);
+myLibraryObject.addBook(theHobbit);
+myLibraryObject.addBook(theBible);
+myLibraryObject.addBook(thingsFallApart);
+console.log(myLibrary);
+myLibraryObject.createInitialBookCards();
 
-/* theHobbit.addBookToLibrary;
-theBible.addBookToLibrary;
-thingsFallApart.addBookToLibrary; */
-
+/*
 function createBookCard(book) {
     const bookCard = document.createElement("div");
     const titleText = document.createElement("p");
@@ -69,7 +117,7 @@ function createBookCard(book) {
     authorText.textContent = book.author;
     pagesText.textContent = book.pages;
     readText.textContent = book.read;
-    bookCard.setAttribute("data", myLibrary.books.indexOf(book));
+    bookCard.setAttribute("data", myLibrary.indexOf(book));
     bookCard.appendChild(titleText);
     bookCard.appendChild(authorText);
     bookCard.appendChild(pagesText);
@@ -79,12 +127,12 @@ function createBookCard(book) {
     bookGrid.appendChild(bookCard);
 
     removeButton.addEventListener("click", () => {
-        myLibrary.books.splice(bookCard.attributes.data.value, 1);
-        bookCard.setAttribute("data", myLibrary.books.indexOf(book));
+        myLibrary.splice(bookCard.attributes.data.value, 1);
+        bookCard.setAttribute("data", myLibrary.indexOf(book));
         while (bookGrid.firstChild) {
             bookGrid.removeChild(bookGrid.lastChild);
           }
-        myLibrary.books.forEach(createBookCard);
+        myLibrary.forEach(createBookCard);
     });
 
     readStatusButton.addEventListener("click", () => {
@@ -92,8 +140,7 @@ function createBookCard(book) {
         readText.textContent = book.read;
     })
 };
-
-myLibrary.books.forEach(createBookCard);
+*/
 
 openDialogButton.addEventListener("click", () => {
     dialog.showModal();
@@ -107,7 +154,7 @@ addBookButton.addEventListener("click", (event) => {
     let read = "read";
     if (unreadInput.checked) {read = "unread"};
     const newBook = new Book(title, author, pages, read);
-    myLibrary.addBookToLibrary(newBook);
+    myLibraryObject.addBook(newBook);
     createBookCard(newBook);
     // dialogWrapper.removeChild(dialog);
 });
