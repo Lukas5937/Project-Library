@@ -65,6 +65,26 @@ class Library {
     returnBookCards() {
         this.library.forEach(book => this.createBookCard(book));
     }
+
+    openDialog() {
+        openDialogButton.addEventListener("click", () => {
+            dialog.showModal();
+        });
+    }
+
+    addBookFromDialog(library) {
+        addBookButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            const title = titleInput.value;
+            const author = authorInput.value;
+            const pages = pagesInput.value;
+            let read = "read";
+            if (unreadInput.checked) {read = "unread"};
+            const newBook = new Book(title, author, pages, read);
+            library.addBook(newBook);
+            this.createBookCard(newBook);
+        });
+    }
 };
 
 class Book {
@@ -97,64 +117,5 @@ myLibraryObject.addBook(theBible);
 myLibraryObject.addBook(thingsFallApart);
 console.log(myLibrary);
 myLibraryObject.createInitialBookCards();
-
-/*
-function createBookCard(book) {
-    const bookCard = document.createElement("div");
-    const titleText = document.createElement("p");
-    const authorText = document.createElement("p");
-    const pagesText = document.createElement("p");
-    const readText = document.createElement("p");
-    const removeButton = document.createElement("button");
-    const readStatusButton = document.createElement("button");
-    const bookGrid = document.querySelector(".book-grid");
-    removeButton.textContent = "Remove";
-    bookCard.classList.add("book-card");
-    readStatusButton.textContent = "Change read status";
-    removeButton.classList.toggle("book-card-button");
-    readStatusButton.classList.toggle("book-card-button");
-    titleText.textContent = book.title;
-    authorText.textContent = book.author;
-    pagesText.textContent = book.pages;
-    readText.textContent = book.read;
-    bookCard.setAttribute("data", myLibrary.indexOf(book));
-    bookCard.appendChild(titleText);
-    bookCard.appendChild(authorText);
-    bookCard.appendChild(pagesText);
-    bookCard.appendChild(readText);
-    bookCard.appendChild(removeButton);
-    bookCard.appendChild(readStatusButton);
-    bookGrid.appendChild(bookCard);
-
-    removeButton.addEventListener("click", () => {
-        myLibrary.splice(bookCard.attributes.data.value, 1);
-        bookCard.setAttribute("data", myLibrary.indexOf(book));
-        while (bookGrid.firstChild) {
-            bookGrid.removeChild(bookGrid.lastChild);
-          }
-        myLibrary.forEach(createBookCard);
-    });
-
-    readStatusButton.addEventListener("click", () => {
-        book.read === "read" ? book.read = "unread" : book.read = "read";
-        readText.textContent = book.read;
-    })
-};
-*/
-
-openDialogButton.addEventListener("click", () => {
-    dialog.showModal();
-});
-
-addBookButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    const title = titleInput.value;
-    const author = authorInput.value;
-    const pages = pagesInput.value;
-    let read = "read";
-    if (unreadInput.checked) {read = "unread"};
-    const newBook = new Book(title, author, pages, read);
-    myLibraryObject.addBook(newBook);
-    createBookCard(newBook);
-    // dialogWrapper.removeChild(dialog);
-});
+myLibraryObject.openDialog();
+myLibraryObject.addBookFromDialog(myLibraryObject);
